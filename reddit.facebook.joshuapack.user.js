@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name       Reddit Facebook Plugin
-// @namespace  http://www.joshuapack.com/reddit.facebook.plugin
+// @namespace  http://www.joshuapack.com/reddit.facebook.joshuapack.user.js
 // @version    0.1
 // @description  Puts reddit in Facebook
 // @include      http*://*.facebook.com/?*
@@ -34,8 +34,12 @@ $(document).ready(function(){
                         xmlDoc = $.parseXML( details.responseText );
                         $xml = $( xmlDoc );
                         $xml.find("item").each(function(){
-                            redditFeed[numberOfPosts] = "<a href='"+redditURL+"' target='_blank' style='text-indent: -9999px;background-image: url(http://www.redditstatic.com/sprite-reddit.c-jYCiurVNk.png);background-position: 0px -313px;background-repeat: no-repeat;height: 40px;width: 120px;display: block;vertical-align: bottom;margin-bottom: 3px;'>"+
-                                "<br/><a href=\""+$(this).find("link").text()+"\">"+$(this).find("title").text()+"</a><br/><br/>"+$(this).find("description").text();
+                            redditFeed[numberOfPosts] = "<a href='"+redditURL+"' target='_blank' style='text-indent: -9999px;background-image: url(http://www.redditstatic.com/sprite-reddit.c-jYCiurVNk.png);background-position: 0px -313px;background-repeat: no-repeat;height: 40px;width: 120px;display: block;vertical-align: bottom;margin-bottom: 3px;'>";
+                            console.log($(this).find('media\\:thumbnail').attr('url'));
+                            if ($(this).find('media\\:thumbnail').length > 0) {
+                                redditFeed[numberOfPosts] += "<br/><img src=\""+$(this).find('media\\:thumbnail').attr("url")+"\" style=\"max-width:450px;\">"; 
+                            }
+                            redditFeed[numberOfPosts] += "<br/><a href=\""+$(this).find("link").text()+"\">"+$(this).find("title").text()+"</a><br/><br/>"+$(this).find("description").text();
                             numberOfPosts++;
                         });
                         finishedRedditLoad = true;
